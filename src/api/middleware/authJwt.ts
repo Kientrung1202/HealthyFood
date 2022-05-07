@@ -17,14 +17,14 @@ const verifyToken = (req: Request, next: NextFunction) => {
     next();
   });
 };
-const isUser = (req: Request, next: NextFunction) => {
+const isExpert = (req: Request, next: NextFunction) => {
   Users.findByPk(req.body.userId).then((user) => {
     const role = user?.getDataValue("role");
-    if (role == ROLE.customer) {
+    if (role == ROLE.expert) {
       next();
       return;
     }
-    throw Error("You are not user! Signup now!");
+    throw Error("You are not expert!");
   });
 };
 const isAdmin = (req: Request, next: NextFunction) => {
@@ -39,7 +39,7 @@ const isAdmin = (req: Request, next: NextFunction) => {
 };
 
 export const authJwt = {
-  isUser,
+  isExpert,
   isAdmin,
   verifyToken,
 };

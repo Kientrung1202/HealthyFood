@@ -1,7 +1,7 @@
-import Users from "../../../../models/user";
+import Users from "../../../models/user";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import { badRequest, success } from "../../../../utils/response";
+import { badRequest, success } from "../../../utils/response";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 
@@ -28,7 +28,7 @@ export const signIn = async (req: Request, res: Response) => {
   if (!userInfo) {
     res.json(badRequest("Username or password is incorrect!"));
   } else {
-    await bcrypt.compare(
+    bcrypt.compare(
       password,
       userInfo.getDataValue("password"),
       (err, result) => {

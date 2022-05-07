@@ -1,21 +1,21 @@
 import { logErr } from "../services/log";
-import { OrderDetails } from "../models/orderDetails";
-import { Orders } from "../models/orders";
-import { Payment } from "../models/payments";
 import Users from "../models/user";
-import { generateProductLine } from "./generateProductLines";
-import { generateProducts } from "./genProduct";
+import { genAreas } from "./genAreas";
+import { Certification } from "../models/certification";
+import { Inspection } from "../models/inspection";
+import { Office } from "../models/office";
+import { PhaseInspect } from "../models/phaseInspect";
 
 const generateDb = async () => {
   try {
     await Users.sync({ force: true });
-    await OrderDetails.sync({ force: true });
-    await Orders.sync({ force: true });
-    await Payment.sync({ force: true });
-    await generateProductLine();
-    await generateProducts();
-  } catch (err) {
-    logErr("Error", "Gen DB");
+    await Certification.sync({ force: true });
+    await Inspection.sync({ force: true });
+    await Office.sync({ force: true });
+    await PhaseInspect.sync({ force: true });
+    await genAreas();
+  } catch (err: any) {
+    logErr("Error", err.toString());
   }
 };
 export default generateDb;

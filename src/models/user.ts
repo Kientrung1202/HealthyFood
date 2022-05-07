@@ -7,7 +7,7 @@ const Users = db.sequelize.define(
   {
     userId: {
       type: Sequelize.UUID,
-      defaultValue: Sequelize.UUIDV4,
+      defaultValue: Sequelize.UUID,
       primaryKey: true,
     },
     userName: {
@@ -41,7 +41,7 @@ const Users = db.sequelize.define(
     },
     role: {
       type: Sequelize.INTEGER,
-      defaultValue: ROLE.customer,
+      defaultValue: ROLE.expert,
       get() {
         return this.getDataValue("role");
       },

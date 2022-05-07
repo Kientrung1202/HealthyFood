@@ -1,5 +1,5 @@
-import { logErr } from "../../../services/log";
-import { badRequest, notFound, serverError } from "../../../utils/response";
+import { logErr } from "../../services/log";
+import { badRequest, notFound, serverError } from "../../utils/response";
 import { Request, Response } from "express";
 
 const CommonError = (req: Request, res: Response, err: Error) => {

@@ -9,14 +9,14 @@ services:
       - POSTGRES_DB=${MY_DB}
       - POSTGRES_PORT=${MY_PORT}
     ports:
-      - ${MY_PORT}:5432
+      - 5433:${MY_PORT}
   api:
     depends_on:
       - postgres
     build: .
     restart: always
     environment:
-      - MY_HOST=mysql
+      - MY_HOST=postgres
       - MY_URL=${MY_URL}
       - POSTGRES_PORT=${MY_PORT}
       - POSTGRES_USER=${MY_USER}

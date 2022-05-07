@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 import "dotenv/config";
-import { createUser, signIn } from "./signup.service";
-import { success } from "../../../../utils/response";
+import { createUser, signIn } from "./creExpert";
+import { success } from "../../../utils/response";
 import CommonError from "../../common/error";
-import { authenticate } from "../../../middleware/authenticate";
+import { authenticate } from "../../middleware/authenticate";
 import express from "express";
 const router = express.Router();
 
 router.post(
-  "/signup",
+  "/admin/createUser",
   [authenticate.checkSignup],
   (req: Request, res: Response) => {
     createUser(req)

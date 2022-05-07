@@ -19,12 +19,15 @@ app.listen(port, () => {
 });
 
 const connectDb = () => {
-  generateDb().then(() => {
-    db.sequelize
-      .authenticate()
-      .then(() => console.log("Connect database successfully"))
-      .catch((err: Error) => console.log("Enable connect database", err));
-  });
+  // generateDb().then(() => {
+  db.sequelize
+    .authenticate()
+    .then(async () => {
+      console.log("Connect database successfully");
+      await generateDb();
+    })
+    .catch((err: Error) => console.log("Enable connect database", err));
+  // });
 };
 
 const initApi = () => {
