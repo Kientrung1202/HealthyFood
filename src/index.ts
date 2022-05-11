@@ -18,16 +18,14 @@ app.listen(port, () => {
   return console.log(`Express is listening at http://localhost:${port}`);
 });
 
-const connectDb = () => {
-  // generateDb().then(() => {
-  db.sequelize
+const connectDb = async () => {
+  await db.sequelize
     .authenticate()
     .then(async () => {
       console.log("Connect database successfully");
       await generateDb();
     })
     .catch((err: Error) => console.log("Enable connect database", err));
-  // });
 };
 
 const initApi = () => {

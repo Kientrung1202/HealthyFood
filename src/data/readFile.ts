@@ -1,5 +1,4 @@
 import fs from "fs";
-// import { getCSVFiles } from "./scanDataType";
 
 export const isExistFile = async (file: string) =>
   new Promise((resolve, reject) => {

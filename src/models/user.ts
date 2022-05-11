@@ -7,7 +7,7 @@ const Users = db.sequelize.define(
   {
     userId: {
       type: Sequelize.UUID,
-      defaultValue: Sequelize.UUID,
+      defaultValue: Sequelize.UUIDV4,
       primaryKey: true,
     },
     userName: {
@@ -33,11 +33,11 @@ const Users = db.sequelize.define(
     },
     createdAt: {
       type: Sequelize.DATE,
-      allowNull: false,
+      allowNull: true,
     },
     lastLogin: {
       type: Sequelize.DATE,
-      allowNull: false,
+      allowNull: true,
     },
     role: {
       type: Sequelize.INTEGER,
