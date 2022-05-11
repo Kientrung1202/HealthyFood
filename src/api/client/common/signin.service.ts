@@ -8,6 +8,14 @@ import { Request, Response } from "express";
 export const signIn = async (req: Request, res: Response) => {
   const { userName, password } = req.body;
   const userInfo = await Users.findOne({
+    attributes: [
+      "userId",
+      "fullName",
+      "password",
+      "phone",
+      "address",
+      "areaNumber",
+    ],
     where: { userName },
   });
   if (!userInfo) {
@@ -37,7 +45,11 @@ export const signIn = async (req: Request, res: Response) => {
               return res.json(
                 success({
                   token,
-                  userName: userInfo.getDataValue("userName"),
+                  userId: userInfo.getDataValue("userId"),
+                  fullName: userInfo.getDataValue("fullName"),
+                  phone: userInfo.getDataValue("phone"),
+                  address: userInfo.getDataValue("address"),
+                  areaNumber: userInfo.getDataValue("areaNumber"),
                 })
               );
             })

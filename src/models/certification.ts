@@ -6,6 +6,7 @@ export const Certification = db.sequelize.define("certifications", {
   certificationId: {
     type: Sequelize.UUID,
     primaryKey: true,
+    defaultValue: Sequelize.UUIDV4,
   },
   start: {
     type: Sequelize.DATEONLY,

@@ -61,9 +61,24 @@ const isManage = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const isUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    verifyToken(req);
+    const user = await Users.findByPk(req.body.user.userId);
+    if (user) {
+      next();
+      return;
+    }
+    throw Error("You not a user!");
+  } catch (err: any) {
+    return CommonError(req, res, err);
+  }
+};
+
 export const authJwt = {
   isExpert,
   isAdmin,
   isManage,
   verifyToken,
+  isUser,
 };

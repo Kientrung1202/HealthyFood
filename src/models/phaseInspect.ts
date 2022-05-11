@@ -8,6 +8,7 @@ export const PhaseInspect = db.sequelize.define("phaseinspects", {
   },
   inspectId: {
     type: Sequelize.UUID,
+    allowNull: false,
   },
   startPhase: {
     type: Sequelize.DATEONLY,
