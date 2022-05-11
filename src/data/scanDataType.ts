@@ -1,5 +1,5 @@
 import path from "path";
-import { readFile } from "./auto-generator";
+import { readFile } from "./readFile";
 export const getCSVFiles = (fileName: string) => {
   const dir = path.join(__dirname, "seed-data");
   return dir + `/${fileName}.csv`;

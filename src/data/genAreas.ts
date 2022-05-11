@@ -12,7 +12,6 @@ export const genAreas = async () => {
   const posNum = header.indexOf("areaNumber");
   const posPro = header.indexOf("belongToProvince");
   const posName = header.indexOf("areaName\r");
-  console.log({ posNum, posPro, posName });
   content.map((line) => {
     const field = line.split(";");
     cleanField(field);
@@ -26,7 +25,6 @@ export const genAreas = async () => {
     };
     dataSeed.push(item);
   });
-  console.log(dataSeed, "dataSeed");
   await Area.sync({ force: false })
     .then(() => {
       return Area.bulkCreate(dataSeed);

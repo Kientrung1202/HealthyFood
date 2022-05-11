@@ -1,5 +1,6 @@
 export enum ROLE {
   expert = 1,
+  manage,
   admin,
 }
 export enum KINDOFBUSINESS {
