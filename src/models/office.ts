@@ -8,8 +8,9 @@ export const Office = db.sequelize.define(
     officeId: {
       type: Sequelize.UUID,
       primaryKey: true,
+      defaultValue: Sequelize.UUIDV4,
     },
-    areaNumeber: {
+    areaNumber: {
       type: Sequelize.INTEGER,
     },
     nameOffice: {

@@ -14,9 +14,4 @@ export const Area = db.sequelize.define("areas", {
     type: Sequelize.STRING,
     allowNull: false,
   },
-
-  userId: {
-    type: Sequelize.UUID,
-    allowNull: true,
-  },
 });

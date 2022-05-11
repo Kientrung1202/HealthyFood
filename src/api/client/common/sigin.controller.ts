@@ -1,6 +1,6 @@
+import { Request, Response } from "express";
 import express from "express";
 import { signIn } from "./signin.service";
-import { Request, Response } from "express";
 
 const router = express.Router();
 

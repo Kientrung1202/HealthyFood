@@ -46,6 +46,10 @@ const Users = db.sequelize.define(
         return this.getDataValue("role");
       },
     },
+    areaNumber: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+    },
   },
   {
     freezeTableName: true, // by default sequelize will pluralize name of model and table(ex: person -> people),

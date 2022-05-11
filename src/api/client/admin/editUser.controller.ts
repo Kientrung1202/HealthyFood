@@ -1,6 +1,12 @@
 import { Request, Response } from "express";
 import "dotenv/config";
-import { createExpert, createManage } from "./creEmployee.service";
+import {
+  createExpert,
+  createManage,
+  deleteUser,
+  getListExpert,
+  getListMange,
+} from "./editUser.service";
 import { success } from "../../../utils/response";
 import CommonError from "../../common/error";
 import { authenticate } from "../../middleware/authenticate";
@@ -36,5 +42,25 @@ router.post(
       });
   }
 );
-
+router.get(
+  "/admin/listManage",
+  authJwt.isAdmin,
+  (req: Request, res: Response) => {
+    getListMange(req, res);
+  }
+);
+router.get(
+  "/admin/listExpert",
+  authJwt.isAdmin,
+  (req: Request, res: Response) => {
+    getListExpert(req, res);
+  }
+);
+router.delete(
+  "/admin/deleteUser",
+  authJwt.isAdmin,
+  (req: Request, res: Response) => {
+    deleteUser(req, res);
+  }
+);
 module.exports = router; // export all router
