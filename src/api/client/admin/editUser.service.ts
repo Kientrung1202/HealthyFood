@@ -5,35 +5,52 @@ import "dotenv/config";
 import { ROLE } from "../../../utils/interface";
 import { success, badRequest } from "../../../utils/response";
 
-export const createExpert = async (req: Request) => {
+export const createExpert = async (req: Request, res: Response) => {
   const hash = await bcrypt.hash(req.body.password, 10);
-  const { userId, userName, fullName, phone, address } = req.body;
-  return Users.create({
-    userId,
-    userName,
-    password: hash,
-    fullName,
-    phone,
-    address,
-    role: ROLE.expert,
-    createdAt: new Date(),
-    lastLogin: new Date(),
-  });
+  const { userName, fullName, phone, address, password } = req.body;
+  // toi thieu 8 ky tu, it nhat 1 chu cai, 1 so va 1 ky tu db
+  const regExp =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+  const valid = regExp.test(password);
+  if (valid)
+    return Users.create({
+      userName,
+      password: hash,
+      fullName,
+      phone,
+      address,
+      role: ROLE.expert,
+      createdAt: new Date(),
+      lastLogin: new Date(),
+    });
+  return res.json(
+    badRequest(
+      "Mat khau toi thieu 8 ky tu, it nhat 1 chu cai, 1 so va 1 ky tu db"
+    )
+  );
 };
-export const createManage = async (req: Request) => {
+export const createManage = async (req: Request, res: Response) => {
   const hash = await bcrypt.hash(req.body.password, 10);
-  const { userId, userName, fullName, phone, address } = req.body;
-  return Users.create({
-    userId,
-    userName,
-    password: hash,
-    fullName,
-    phone,
-    address,
-    role: ROLE.manage,
-    createdAt: new Date(),
-    lastLogin: new Date(),
-  });
+  const { userName, fullName, phone, address, password } = req.body;
+  const regExp =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+  const valid = regExp.test(password);
+  if (valid)
+    return Users.create({
+      userName,
+      password: hash,
+      fullName,
+      phone,
+      address,
+      role: ROLE.manage,
+      createdAt: new Date(),
+      lastLogin: new Date(),
+    });
+  return res.json(
+    badRequest(
+      "Mat khau toi thieu 8 ky tu, it nhat 1 chu cai, 1 so va 1 ky tu db"
+    )
+  );
 };
 export const getListMange = (req: Request, res: Response) => {
   Users.findAll({

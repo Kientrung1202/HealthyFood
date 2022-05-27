@@ -4,9 +4,9 @@ import { STATUSOFCER } from "../utils/interface";
 
 export const Certification = db.sequelize.define("certifications", {
   certificationId: {
-    type: Sequelize.UUID,
+    type: Sequelize.INTEGER,
     primaryKey: true,
-    defaultValue: Sequelize.UUIDV4,
+    autoIncrement: true,
   },
   start: {
     type: Sequelize.DATEONLY,

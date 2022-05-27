@@ -1,18 +1,14 @@
 import { Request, Response } from "express";
 import { Office } from "../../../models/office";
 import Users from "../../../models/user";
-import { badRequest, success } from "../../../utils/response";
+import { success } from "../../../utils/response";
 
 export const getListOffice = async (req: Request, res: Response) => {
-  const { areaNumber, userId } = req.body;
-  if (!areaNumber) return res.json(badRequest("Missing field: areaNumber"));
-  if (!userId) return res.json(badRequest("Missing field: userId"));
-
+  const { userId } = req.body.user;
   const userInfo = await Users.findOne({
     where: { userId },
   });
-  if (userInfo?.getDataValue("areaNumber") != areaNumber)
-    return res.json(badRequest("You must be authorized!"));
+  const areaNumber = userInfo?.getDataValue("areaNumber");
   Office.findAll({
     where: {
       areaNumber,

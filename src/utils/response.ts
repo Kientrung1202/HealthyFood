@@ -1,7 +1,7 @@
 export const success = (message: unknown) => ({
   success: true,
   code: 200,
-  reason: message || "SUCCESS",
+  data: message || "SUCCESS",
 });
 export const badRequest = (message: string) => ({
   success: false,

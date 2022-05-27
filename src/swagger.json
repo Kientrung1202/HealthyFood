@@ -1,0 +1,327 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "API OF WEB HEALTHY FIRST",
+    "version": "1.0"
+  },
+  "servers": [{ "url": "https://trungvandeptry.uetbc.xyz" }],
+  "components": {
+    "schemas": {
+      "user": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          }
+        }
+      },
+      "responseSuccessString": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "string"
+          }
+        }
+      },
+      "responseSuccessObject": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "resBadRequest": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "string"
+          }
+        }
+      },
+      "userId": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          }
+        }
+      },
+      "city": {
+        "type": "object",
+        "properties": {
+          "city": {
+            "type": "string"
+          }
+        }
+      },
+      "areaNumber": {
+        "type": "object",
+        "properties": {
+          "city": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "responses": {
+      "successString": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/responseSuccessString"
+            }
+          }
+        }
+      },
+      "successObj": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/responseSuccessObject"
+            }
+          }
+        }
+      },
+      "failed": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/resBadRequest"
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/admin/createExpert": {
+      "post": {
+        "tags": ["Admin"],
+        "description": "Create an expert",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/user"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/createManage": {
+      "post": {
+        "tags": ["Admin"],
+        "description": "Create an expert",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/user"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/listManage": {
+      "get": {
+        "tags": ["Admin"],
+        "description": "Create an expert",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/listExpert": {
+      "get": {
+        "tags": ["Admin"],
+        "description": "Create an expert",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/deleteUser": {
+      "delete": {
+        "tags": ["Admin"],
+        "description": "Create an expert",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/userId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/manage/listCity": {
+      "get": {
+        "tags": ["Manage"],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/manage/listArea": {
+      "get": {
+        "tags": ["Manage"],
+        "description": "",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/city"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/listOffice": {
+      "get": {
+        "tags": ["Expert"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OKk",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Expert",
+      "description": "Api of users as expert"
+    },
+    {
+      "name": "Manage",
+      "description": "APi of users as manage. A manage can call api of expert"
+    },
+    {
+      "name": "Admin",
+      "description": "Api of admin"
+    },
+    {
+      "name": "Common",
+      "description": "APi don't need token in header"
+    }
+  ]
+}

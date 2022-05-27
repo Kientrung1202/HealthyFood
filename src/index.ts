@@ -7,16 +7,10 @@ import morgan from "morgan";
 import bodyParser from "body-parser";
 import glob from "glob";
 import generateDb from "./data/generate";
-
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./swagger.json";
 const app = express();
 const port = process.env.PORT;
-
-app.get("/", (req: Request, res: Response) => {
-  return res.send("Hello trung!");
-});
-app.listen(port, () => {
-  return console.log(`Express is listening at http://localhost:${port}`);
-});
 
 const connectDb = async () => {
   await db.sequelize
@@ -51,7 +45,24 @@ const initApi = () => {
     console.log("init api successfully");
   });
 };
-Promise.all([connectDb(), initApi()])
+
+const initSwagger = () => {
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+};
+/**
+ * @swagger
+ * /:
+ * get:
+ *  description:
+ */
+app.get("/", (req: Request, res: Response) => {
+  return res.send("Hello trung!");
+});
+app.listen(port, () => {
+  return console.log(`Express is listening at http://localhost:${port}`);
+});
+
+Promise.all([connectDb(), initApi(), initSwagger()])
   .then(() => {
     console.log("Server run");
   })
