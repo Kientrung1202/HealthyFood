@@ -4,6 +4,7 @@ import "dotenv/config";
 import Users from "../../models/user";
 import { ROLE } from "../../utils/interface";
 import CommonError from "../common/error";
+import { badRequest } from "../../utils/response";
 
 const verifyToken = (req: Request) => {
   const token = req.headers["authorization"];
@@ -26,7 +27,7 @@ const isExpert = async (req: Request, res: Response, next: NextFunction) => {
       next();
       return;
     }
-    throw Error("You must be authorization!");
+    return res.json(badRequest("You must be authorization!"));
   } catch (err: any) {
     return CommonError(req, res, err);
   }
@@ -40,7 +41,7 @@ const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
       next();
       return;
     }
-    throw Error("You must be authorization!");
+    return res.json(badRequest("You must be authorization!"));
   } catch (err: any) {
     return CommonError(req, res, err);
   }
@@ -55,7 +56,7 @@ const isManage = async (req: Request, res: Response, next: NextFunction) => {
       next();
       return;
     }
-    throw Error("You must be authorization!");
+    return res.json(badRequest("You must be authorization!"));
   } catch (err: any) {
     return CommonError(req, res, err);
   }
@@ -69,7 +70,7 @@ const isUser = async (req: Request, res: Response, next: NextFunction) => {
       next();
       return;
     }
-    throw Error("You not a user!");
+    return res.json(badRequest("You must be authorization!"));
   } catch (err: any) {
     return CommonError(req, res, err);
   }

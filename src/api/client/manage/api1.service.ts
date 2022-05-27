@@ -17,12 +17,12 @@ export const getListCity = (req: Request, res: Response) => {
   });
 };
 export const getArea = (req: Request, res: Response) => {
-  const province = req.body.city;
-  if (!province) return res.json(badRequest("Missing field: city"));
+  const city = req.body.city;
+  if (!city) return res.json(badRequest("Missing field: city"));
   Area.findAll({
     attributes: ["areaNumber", "areaName", "userId"],
     where: {
-      belongToProvince: province,
+      belongToProvince: city,
     },
   }).then((results) => {
     res.json(success(results));

@@ -1,4 +1,4 @@
-userName;password;fullName;phone;address;role
+userName;password;fullName;phone;address;role;areaNumber
 admin;$2b$10$cxeeTFaWvkE6PfWdJDTrb.tE9mZta5H.utH..RsVYHey1RmULoXlG;Nguyen Kien Trung;0986123456;Thai Binh;3
 manage;$2b$10$FxTqZkgxILrVmITkUfqkWeGTPhQikecq9AjxxVsRRTPlLVmGtZjeK;Hoang Van Luong;0986234567;Thai Binh;2
-expert;$2b$10$G2AUvskhUIkXR69PFz/9cuUBWzQCGrq.kHxf.Id6jfiwdAdqctPTG;Nguyen Van Phuong;098634678;Thai Binh;1
+expert;$2b$10$G2AUvskhUIkXR69PFz/9cuUBWzQCGrq.kHxf.Id6jfiwdAdqctPTG;Nguyen Van Phuong;098634678;Thai Binh;1;4

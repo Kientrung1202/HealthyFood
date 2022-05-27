@@ -11,13 +11,15 @@ const genUsers = async () => {
     phone: string;
     address: string;
     role: number;
+    areaNumber: number | null;
   }[] = [];
   const posUserName = header.indexOf("userName");
   const posPw = header.indexOf("password");
   const posName = header.indexOf("fullName");
   const posPhone = header.indexOf("phone");
   const posAddress = header.indexOf("address");
-  const posRole = header.indexOf("role\r");
+  const posArea = header.indexOf("areaNumber\r");
+  const posRole = header.indexOf("role");
   content.map((oneLine) => {
     const field = oneLine.split(";");
     cleanField(field);
@@ -27,6 +29,7 @@ const genUsers = async () => {
     const fullName = field[posName];
     const address = field[posAddress];
     const role = Number(field[posRole]);
+    const areaNumber = Number(field[posArea]) || null;
     const item = {
       userName,
       password,
@@ -34,6 +37,7 @@ const genUsers = async () => {
       phone,
       address,
       role,
+      areaNumber,
     };
     data.push(item);
   });
