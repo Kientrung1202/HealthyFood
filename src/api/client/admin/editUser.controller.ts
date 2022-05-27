@@ -19,7 +19,7 @@ router.post(
   // check xem account da co chua, check xem la admin ko
   [authJwt.isAdmin, authenticate.checkSignup],
   (req: Request, res: Response) => {
-    createManage(req)
+    createManage(req, res)
       .then(() => {
         return res.json(success("Create a expert successfully!"));
       })
@@ -33,7 +33,7 @@ router.post(
   "/admin/createManage",
   [authenticate.checkSignup, authJwt.isAdmin],
   (req: Request, res: Response) => {
-    createExpert(req)
+    createExpert(req, res)
       .then(() => {
         return res.json(success("Create a manage successfully!"));
       })
