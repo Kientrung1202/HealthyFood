@@ -92,6 +92,17 @@
             "type": "number"
           }
         }
+      },
+      "sigin": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
       }
     },
     "responses": {
@@ -291,6 +302,32 @@
       "get": {
         "tags": ["Expert"],
         "description": "",
+        "responses": {
+          "200": {
+            "description": "OKk",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/signin": {
+      "post": {
+        "tags": ["Common"],
+        "description": "",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/sigin"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OKk",

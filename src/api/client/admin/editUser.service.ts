@@ -9,10 +9,13 @@ export const createExpert = async (req: Request, res: Response) => {
   const hash = await bcrypt.hash(req.body.password, 10);
   const { userName, fullName, phone, address, password } = req.body;
   // toi thieu 8 ky tu, it nhat 1 chu cai, 1 so va 1 ky tu db
-  const regExp =
+  const regPass =
     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-  const valid = regExp.test(password);
-  if (valid)
+  const valid = regPass.test(password);
+  const regPhone =
+    /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/;
+  const validPhone = regPhone.test(phone);
+  if (valid && validPhone)
     return Users.create({
       userName,
       password: hash,
@@ -23,19 +26,30 @@ export const createExpert = async (req: Request, res: Response) => {
       createdAt: new Date(),
       lastLogin: new Date(),
     });
+  else if (!valid)
+    return res.json(
+      badRequest(
+        "Mat khau toi thieu 8 ky tu, it nhat 1 chu cai, 1 so va 1 ky tu db"
+      )
+    );
   return res.json(
     badRequest(
-      "Mat khau toi thieu 8 ky tu, it nhat 1 chu cai, 1 so va 1 ky tu db"
+      "Số điện thoại gồm 10 số nếu có nhập số 0 ở đầu tiên. Nếu không nhập 0 thì còn 9 số."
     )
   );
 };
 export const createManage = async (req: Request, res: Response) => {
   const hash = await bcrypt.hash(req.body.password, 10);
-  const { userName, fullName, phone, address, password } = req.body;
-  const regExp =
+  const { userName, fullName, address, password } = req.body;
+  let phone = req.body.phone;
+  const regPass =
     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-  const valid = regExp.test(password);
-  if (valid)
+  const valid = regPass.test(password);
+  const regPhone =
+    /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/;
+  const validPhone = regPhone.test(phone);
+  if (phone.length == 9) phone = "0" + phone;
+  if (valid && validPhone)
     return Users.create({
       userName,
       password: hash,
@@ -46,9 +60,15 @@ export const createManage = async (req: Request, res: Response) => {
       createdAt: new Date(),
       lastLogin: new Date(),
     });
+  else if (!valid)
+    return res.json(
+      badRequest(
+        "Mat khau toi thieu 8 ky tu, it nhat 1 chu cai, 1 so va 1 ky tu db"
+      )
+    );
   return res.json(
     badRequest(
-      "Mat khau toi thieu 8 ky tu, it nhat 1 chu cai, 1 so va 1 ky tu db"
+      "Số điện thoại gồm 10 số nếu có nhập số 0 ở đầu tiên. Nếu không nhập 0 thì còn 9 số."
     )
   );
 };

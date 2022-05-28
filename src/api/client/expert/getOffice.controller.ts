@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import { Request, Response } from "express";
 import express from "express";
 import { authJwt } from "../../middleware/authJwt";
 import { getListOffice } from "./getOffice.service";
@@ -8,4 +8,4 @@ router.get("/listOffice", authJwt.isUser, (req: Request, res: Response) => {
   getListOffice(req, res);
 });
 
-module.exports = router
+module.exports = router;
