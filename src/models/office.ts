@@ -32,10 +32,6 @@ export const Office = db.sequelize.define(
       type: Sequelize.INTEGER,
       defaultValue: KINDOFBUSINESS.production,
     },
-    certificationId: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-    },
   },
   {
     freezeTableName: true,

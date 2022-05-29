@@ -19,4 +19,8 @@ export const Inspection = db.sequelize.define("inspections", {
     type: Sequelize.UUID,
     allowNull: false,
   },
+  officeId: {
+    type: Sequelize.UUID,
+    allowNull: false,
+  },
 });

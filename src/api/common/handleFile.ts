@@ -15,6 +15,7 @@ const diskStorage = _diskStorage({
       return callback(errorMess, "");
     }
     const filename = `${Date.now()}.${officeId}.pdf`;
+    req.body.filename = filename;
     callback(null, filename);
   },
 });

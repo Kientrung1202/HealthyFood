@@ -1,5 +1,5 @@
-areaNumber;nameOffice;owner;address;phone;kindOfBusiness;certificationId
-4;Trung Hotspot;Nguyen Kien Trung;100 Cat Linh;0986765785;1;1
-4;Phuong Hotspot;Nguyen Van Phuong;101 Cat Linh;0986765775;2;2
-4;Luong Hotspot;Hoang Van Luong;102 Cat Linh;0986765745;3;3
-4;Linh Hotspot;Lung Linh Luon;103 Cat Linh;0986745745;1
+officeId;areaNumber;nameOffice;owner;address;phone;kindOfBusiness
+760b1622-4363-4c10-8a0f-75a99d2a071f;4;Trung Hotspot;Nguyen Kien Trung;100 Cat Linh;0986765785;1
+f592d576-4067-410a-b543-fb0a9ebbfb30;4;Phuong Hotspot;Nguyen Van Phuong;101 Cat Linh;0986765775;2
+e8335a88-f55a-482c-8b8c-6a8424ec2990;4;Luong Hotspot;Hoang Van Luong;102 Cat Linh;0986765745;3
+e8064dd5-a13d-4fa7-8f24-630d194c17a3;4;Linh Hotspot;Lung Linh Luon;103 Cat Linh;0986745745;1

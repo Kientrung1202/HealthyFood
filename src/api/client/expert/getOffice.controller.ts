@@ -3,11 +3,13 @@ import express from "express";
 import { authJwt } from "../../middleware/authJwt";
 import {
   createOffice,
+  deleteOffice,
   detailOffice,
-  getLinkDoc,
+  getFile,
+  getListLinkDoc,
   getListOffice,
+  updateOffice,
 } from "./getOffice.service";
-import path from "path";
 const router = express.Router();
 
 router.get(
@@ -30,13 +32,29 @@ router.get(
   }
 );
 
-router.get(
-  "/file/:officeId",
+router.put(
+  "/office/:officeId",
   authJwt.isUser,
   async (req: Request, res: Response) => {
-    getLinkDoc(req, res);
+    updateOffice(req, res);
   }
 );
+
+router.delete(
+  "/office/:officeId",
+  authJwt.isUser,
+  async (req: Request, res: Response) => {
+    deleteOffice(req, res);
+  }
+);
+
+router.get("/files", authJwt.isUser, async (req: Request, res: Response) => {
+  getListLinkDoc(req, res);
+});
+
+router.get("/file", authJwt.isUser, async (req: Request, res: Response) => {
+  getFile(req, res);
+});
 
 // router.get("/test", async (req: Request, res: Response) => {
 //   return res.sendFile(path.join(`/app/dist/public/1.pdf`));

@@ -121,6 +121,14 @@
           }
         }
       },
+      "linkDoc": {
+        "type": "object",
+        "properties": {
+          "linkDoc": {
+            "type": "string"
+          }
+        }
+      },
       "sigin": {
         "type": "object",
         "properties": {
@@ -392,16 +400,80 @@
             }
           }
         }
+      },
+      "put": {
+        "description": "",
+        "tags": ["Expert"],
+        "parameters": [
+          {
+            "name": "officeId",
+            "in": "path"
+          },
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/office"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "tags": ["Expert"],
+        "parameters": [
+          {
+            "name": "officeId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
-    "/file/:officeId": {
+    "/files": {
       "get": {
         "tags": ["Expert"],
         "description": "",
         "parameters": [
           {
-            "name": "officeId",
-            "in": "path"
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/officeId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/file": {
+      "get": {
+        "tags": ["Expert"],
+        "description": "",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/linkDoc"
+            }
           }
         ],
         "responses": {

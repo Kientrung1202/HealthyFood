@@ -8,6 +8,9 @@ export const Certification = db.sequelize.define("certifications", {
     primaryKey: true,
     autoIncrement: true,
   },
+  officeId: {
+    type: Sequelize.UUID,
+  },
   start: {
     type: Sequelize.DATEONLY,
     allowNull: false,

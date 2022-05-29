@@ -23,7 +23,7 @@ const isExpert = async (req: Request, res: Response, next: NextFunction) => {
     console.log(req.body.user.userId, "userID day");
     const admin = await Users.findByPk(req.body.user.userId);
     const role = admin?.getDataValue("role");
-    if (role && role == ROLE.expert) {
+    if (role && (role == ROLE.expert || role == ROLE.manage)) {
       next();
       return;
     }
