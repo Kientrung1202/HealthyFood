@@ -5,12 +5,13 @@ import { Inspection } from "../models/inspection";
 import { PhaseInspect } from "../models/phaseInspect";
 import genUsers from "./genUsers";
 import genOffice from "./genOfice";
+import { genCer } from "./genCer";
 
-const generateDb = async () => {
+const generateDb = async (rootPath: string) => {
   try {
-    await Certification.sync({ force: true });
     await Inspection.sync({ force: true });
     await PhaseInspect.sync({ force: true });
+    await genCer(rootPath);
     await genAreas();
     await genUsers();
     await genOffice();

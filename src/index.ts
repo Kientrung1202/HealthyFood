@@ -17,7 +17,7 @@ const connectDb = async () => {
     .authenticate()
     .then(async () => {
       console.log("Connect database successfully");
-      await generateDb();
+      await generateDb(__dirname);
     })
     .catch((err: Error) => console.log("Enable connect database", err));
 };
@@ -49,14 +49,9 @@ const initApi = () => {
 const initSwagger = () => {
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 };
-/**
- * @swagger
- * /:
- * get:
- *  description:
- */
+
 app.get("/", (req: Request, res: Response) => {
-  return res.send("Hello trung!");
+  return res.send(`Hello trung!${__dirname}`);
 });
 app.listen(port, () => {
   return console.log(`Express is listening at http://localhost:${port}`);

@@ -4,18 +4,14 @@ import bcrypt from "bcrypt";
 import "dotenv/config";
 import { ROLE } from "../../../utils/interface";
 import { success, badRequest } from "../../../utils/response";
+import { validPhone, validPw } from "../../middleware/regex";
 
 export const createExpert = async (req: Request, res: Response) => {
   const hash = await bcrypt.hash(req.body.password, 10);
   const { userName, fullName, phone, address, password } = req.body;
-  // toi thieu 8 ky tu, it nhat 1 chu cai, 1 so va 1 ky tu db
-  const regPass =
-    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-  const valid = regPass.test(password);
-  const regPhone =
-    /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/;
-  const validPhone = regPhone.test(phone);
-  if (valid && validPhone)
+  const valid = validPw(password);
+  const isValidPhone = validPhone(phone);
+  if (valid && isValidPhone)
     return Users.create({
       userName,
       password: hash,
@@ -42,14 +38,10 @@ export const createManage = async (req: Request, res: Response) => {
   const hash = await bcrypt.hash(req.body.password, 10);
   const { userName, fullName, address, password } = req.body;
   let phone = req.body.phone;
-  const regPass =
-    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-  const valid = regPass.test(password);
-  const regPhone =
-    /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/;
-  const validPhone = regPhone.test(phone);
-  if (phone.length == 9) phone = "0" + phone;
-  if (valid && validPhone)
+  const valid = validPw(password);
+  const isValidPhone = validPhone(phone);
+  if (valid && isValidPhone) if (phone.length == 9) phone = "0" + phone;
+  if (valid && isValidPhone)
     return Users.create({
       userName,
       password: hash,

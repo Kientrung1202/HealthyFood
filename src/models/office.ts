@@ -13,6 +13,9 @@ export const Office = db.sequelize.define(
     areaNumber: {
       type: Sequelize.INTEGER,
     },
+    owner: {
+      type: Sequelize.STRING,
+    },
     nameOffice: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -30,7 +33,7 @@ export const Office = db.sequelize.define(
       defaultValue: KINDOFBUSINESS.production,
     },
     certificationId: {
-      type: Sequelize.UUID,
+      type: Sequelize.INTEGER,
       allowNull: true,
     },
   },

@@ -8,14 +8,18 @@ const genOffice = async () => {
     areaNumber: number;
     nameOffice: string;
     address: string;
+    owner: string;
     phone: string;
     kindOfBusiness: string;
+    certificationId: number | null;
   }[] = [];
   const posArea = header.indexOf("areaNumber");
   const posNameOffice = header.indexOf("nameOffice");
   const posAddress = header.indexOf("address");
-  const posKindOfBusiness = header.indexOf("kindOfBusiness\r");
+  const posKindOfBusiness = header.indexOf("kindOfBusiness");
   const posPhone = header.indexOf("phone");
+  const posOwn = header.indexOf("owner");
+  const posCerId = header.indexOf("certificationId\r");
 
   content.map((oneLine) => {
     const field = oneLine.split(";");
@@ -25,12 +29,16 @@ const genOffice = async () => {
     const address = field[posAddress];
     const phone = field[posPhone];
     const kindOfBusiness = field[posKindOfBusiness];
+    const owner = field[posOwn];
+    const certificationId = Number(field[posCerId]) || null;
     const item = {
       areaNumber,
       nameOffice,
       address,
       phone,
+      owner,
       kindOfBusiness,
+      certificationId,
     };
     data.push(item);
   });

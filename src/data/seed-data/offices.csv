@@ -1,4 +1,5 @@
-areaNumber;nameOffice;address;phone;kindOfBusiness
-4;Trung Hotspot;100 Cat Linh;0986765765;1
-4;Phuong Hotspot;101 Cat Linh;0986765765;2
-4;Luong Hotspot;102 Cat Linh;0986765765;3
+areaNumber;nameOffice;owner;address;phone;kindOfBusiness;certificationId
+4;Trung Hotspot;Nguyen Kien Trung;100 Cat Linh;0986765785;1;1
+4;Phuong Hotspot;Nguyen Van Phuong;101 Cat Linh;0986765775;2;2
+4;Luong Hotspot;Hoang Van Luong;102 Cat Linh;0986765745;3;3
+4;Linh Hotspot;Lung Linh Luon;103 Cat Linh;0986745745;1
