@@ -113,6 +113,14 @@
           }
         }
       },
+      "cerId": {
+        "type": "object",
+        "properties": {
+          "cerId": {
+            "type": "string"
+          }
+        }
+      },
       "areaNumber": {
         "type": "object",
         "properties": {
@@ -438,7 +446,7 @@
         }
       }
     },
-    "/files": {
+    "/cers": {
       "get": {
         "tags": ["Expert"],
         "description": "",
@@ -447,6 +455,32 @@
             "in": "body",
             "schema": {
               "$ref": "#/components/schemas/officeId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evicts": {
+      "get": {
+        "tags": ["Expert"],
+        "description": "",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/cerId"
             }
           }
         ],

@@ -5,8 +5,9 @@ import {
   createOffice,
   deleteOffice,
   detailOffice,
+  getEvict,
   getFile,
-  getListLinkDoc,
+  getListCer,
   getListOffice,
   updateOffice,
 } from "./getOffice.service";
@@ -44,16 +45,15 @@ router.delete(
   }
 );
 
-router.get("/files", authJwt.isUser, async (req: Request, res: Response) => {
-  getListLinkDoc(req, res);
+router.get("/cers", authJwt.isUser, async (req: Request, res: Response) => {
+  getListCer(req, res);
 });
 
+router.get("/evict", authJwt.isUser, async (req: Request, res: Response) => {
+  getEvict(req, res);
+});
 router.get("/file", authJwt.isUser, async (req: Request, res: Response) => {
   getFile(req, res);
 });
-
-// router.get("/test", async (req: Request, res: Response) => {
-//   return res.sendFile(path.join(`/app/dist/public/1.pdf`));
-// });
 
 module.exports = router;

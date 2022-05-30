@@ -2,20 +2,21 @@ import { Request, Response } from "express";
 import path from "path";
 import { Op } from "sequelize";
 import { Certification } from "../../../models/certification";
+import { Eviction } from "../../../models/eviction";
 import { Inspection } from "../../../models/inspection";
 import { Office } from "../../../models/office";
 import { PhaseInspect } from "../../../models/phaseInspect";
 import Users from "../../../models/user";
-import { KINDOFBUSINESS, STATUSOFCER } from "../../../utils/interface";
+import { KINDOFBUSINESS, ROLE, STATUSOFCER } from "../../../utils/interface";
 import { badRequest, success } from "../../../utils/response";
 import { uploadFile } from "../../common/handleFile";
 import { validPhone } from "../../middleware/regex";
 
-const findOffByStatus = async (status = 0) => {
+const findOffByStatus = async (status = 0, areaNumber: number) => {
   if (status != 0) {
     const cers = await Certification.findAll({
       attributes: ["officeId"],
-      where: { status },
+      where: { status, areaNumber },
       group: "officeId",
     });
     const results: any[] = [];
@@ -67,10 +68,10 @@ const findOffByStatus = async (status = 0) => {
   }
 };
 
-const findByKindOfBusiness = async (kind = 0) => {
+const findByKindOfBusiness = async (kind = 0, areaNumber: number) => {
   const results: any[] = [];
   if (kind == 0) {
-    await Office.findAll().then((datas) => {
+    await Office.findAll({ where: { areaNumber } }).then((datas) => {
       datas.map((result) => {
         const item = {
           officeId: result?.getDataValue("officeId"),
@@ -84,19 +85,21 @@ const findByKindOfBusiness = async (kind = 0) => {
       });
     });
   }
-  await Office.findAll({ where: { kindOfBusiness: kind } }).then((datas) => {
-    datas.map((result) => {
-      const item = {
-        officeId: result?.getDataValue("officeId"),
-        owner: result?.getDataValue("owner"),
-        nameOffice: result?.getDataValue("nameOffice"),
-        address: result?.getDataValue("address"),
-        phone: result?.getDataValue("phone"),
-        kindOfBusiness: result?.getDataValue("kindOfBusiness"),
-      };
-      results.push(item);
-    });
-  });
+  await Office.findAll({ where: { kindOfBusiness: kind, areaNumber } }).then(
+    (datas) => {
+      datas.map((result) => {
+        const item = {
+          officeId: result?.getDataValue("officeId"),
+          owner: result?.getDataValue("owner"),
+          nameOffice: result?.getDataValue("nameOffice"),
+          address: result?.getDataValue("address"),
+          phone: result?.getDataValue("phone"),
+          kindOfBusiness: result?.getDataValue("kindOfBusiness"),
+        };
+        results.push(item);
+      });
+    }
+  );
   return results;
 };
 
@@ -108,22 +111,27 @@ export const getListOffice = async (req: Request, res: Response) => {
   const userInfo = await Users.findOne({
     where: { userId },
   });
-  const areaNumber = userInfo?.getDataValue("areaNumber");
+  let areaNumber = 0;
+  if (userInfo?.getDataValue("role") == ROLE.expert) {
+    areaNumber = userInfo?.getDataValue("areaNumber");
+  } else if (userInfo?.getDataValue("role") == ROLE.manage)
+    areaNumber = req.body.areaNumber;
+  if (!areaNumber) return res.json(badRequest("Missing field areaNumber"));
   let resultsSta: any[] = [];
   let resultsKind: any[] = [];
   let results: any[] = [];
   if (status == "active") {
-    resultsSta = await findOffByStatus(STATUSOFCER.active);
+    resultsSta = await findOffByStatus(STATUSOFCER.active, areaNumber);
   } else if (status == "evict") {
-    resultsSta = await findOffByStatus(STATUSOFCER.evict);
+    resultsSta = await findOffByStatus(STATUSOFCER.evict, areaNumber);
   } else if (status == "expire") {
-    resultsSta = await findOffByStatus(STATUSOFCER.expire);
+    resultsSta = await findOffByStatus(STATUSOFCER.expire, areaNumber);
   } else if (status == "waiting") {
-    resultsSta = await findOffByStatus();
+    resultsSta = await findOffByStatus(0, areaNumber);
   } else if (status == "notactive") {
-    const results1 = await findOffByStatus(STATUSOFCER.evict);
-    const results2 = await findOffByStatus();
-    const results3 = await findOffByStatus(STATUSOFCER.expire);
+    const results1 = await findOffByStatus(STATUSOFCER.evict, areaNumber);
+    const results2 = await findOffByStatus(0, areaNumber);
+    const results3 = await findOffByStatus(STATUSOFCER.expire, areaNumber);
     resultsSta = [...results1, ...results2, ...results3];
   } else {
     await Office.findAll({
@@ -147,9 +155,9 @@ export const getListOffice = async (req: Request, res: Response) => {
       .catch((err) => res.json(err));
   }
   if (kindOfBusiness in KINDOFBUSINESS) {
-    resultsKind = await findByKindOfBusiness(kindOfBusiness);
+    resultsKind = await findByKindOfBusiness(kindOfBusiness, areaNumber);
   } else if (kindOfBusiness == 0) {
-    resultsKind = await findByKindOfBusiness(kindOfBusiness);
+    resultsKind = await findByKindOfBusiness(kindOfBusiness, areaNumber);
   } else return res.json("Kind of Buisiness is invalid");
   const listOfficeId: string[] = [];
   resultsKind.map((result) => listOfficeId.push(result?.officeId));
@@ -164,10 +172,17 @@ export const detailOffice = async (req: Request, res: Response) => {
     .then((results) => res.json(success(results)))
     .catch((err) => res.json(badRequest(err)));
 };
-export const getListLinkDoc = async (req: Request, res: Response) => {
+export const getListCer = async (req: Request, res: Response) => {
   const { officeId } = req.body;
   await Certification.findAll({ where: { officeId } })
     .then((cer) => res.json(success(cer)))
+    .catch((err) => res.json(badRequest(err)));
+};
+
+export const getEvict = async (req: Request, res: Response) => {
+  const { cerId } = req.body;
+  await Eviction.findAll({ where: { cerId } })
+    .then((evict) => res.json(success(evict[0])))
     .catch((err) => res.json(badRequest(err)));
 };
 
@@ -208,7 +223,12 @@ export const createOffice = async (req: Request, res: Response) => {
   const userInfo = await Users.findOne({
     where: { userId },
   });
-  const areaNumber = userInfo?.getDataValue("areaNumber");
+  let areaNumber = 0;
+  if (userInfo?.getDataValue("role") == ROLE.expert) {
+    areaNumber = userInfo?.getDataValue("areaNumber");
+  } else if (userInfo?.getDataValue("role") == ROLE.manage)
+    areaNumber = req.body.areaNumber;
+  if (!areaNumber) return res.json(badRequest("Missing field areaNumber"));
   await Office.create({
     areaNumber,
     nameOffice,
