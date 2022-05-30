@@ -334,10 +334,10 @@
         }
       }
     },
-    "/listOffice": {
+    "/offices": {
       "get": {
         "tags": ["Expert"],
-        "description": "",
+        "description": "Nếu muốn lọc thì thêm /?status=[active, notactive,evict, expire, waiting]&kind=[1,2,3]",
         "responses": {
           "200": {
             "description": "OKk",

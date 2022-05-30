@@ -11,7 +11,7 @@ export enum KINDOFBUSINESS {
 export enum STATUSOFCER {
   active = 1,
   evict, // bi thu hoi
-  exprire,
+  expire,
 }
 export enum PHASEINSPECT {
   inspectAtOffice = 1, // kiem tra tai co so

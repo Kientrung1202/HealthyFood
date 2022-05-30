@@ -12,13 +12,9 @@ import {
 } from "./getOffice.service";
 const router = express.Router();
 
-router.get(
-  "/listOffice",
-  authJwt.isUser,
-  async (req: Request, res: Response) => {
-    getListOffice(req, res);
-  }
-);
+router.get("/offices", authJwt.isUser, async (req: Request, res: Response) => {
+  getListOffice(req, res);
+});
 router.post("/office", authJwt.isUser, async (req: Request, res: Response) => {
   // create office
   createOffice(req, res);
