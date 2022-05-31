@@ -30,7 +30,11 @@ const genUsers = async () => {
     const fullName = field[posName];
     const address = field[posAddress];
     const role = Number(field[posRole]);
-    const areaNumber = Number(field[posArea]) || null;
+    let areaNumber = null;
+
+    if (field[posArea]) {
+      areaNumber = Number(field[posArea]);
+    }
     const item = {
       userName,
       password,
