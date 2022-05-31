@@ -16,8 +16,9 @@ export const genCer = async (rootPath: string) => {
   const posStart = header.indexOf("start");
   const posEnd = header.indexOf("end");
   const posLinkDoc = header.indexOf("linkDoc");
-  const posStatus = header.indexOf("status\r");
-
+  // const posStatus = header.indexOf("status\r");
+  const posStatus = 5;
+  let sta: number | null = null;
   content.map((oneLine) => {
     const field = oneLine.split(";");
     cleanField(field);
@@ -26,14 +27,14 @@ export const genCer = async (rootPath: string) => {
     const start = field[posStart];
     const end = field[posEnd];
     const linkDoc = rootPath + "/public/" + field[posLinkDoc];
-    const status = Number(field[posStatus]);
+    if (field[posStatus]) sta = Number(field[posStatus]);
     const item = {
       officeId,
       certificationId,
       start,
       end,
       linkDoc,
-      status,
+      status: sta,
     };
     data.push(item);
   });
