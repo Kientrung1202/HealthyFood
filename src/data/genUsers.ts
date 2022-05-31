@@ -30,10 +30,10 @@ const genUsers = async () => {
     const fullName = field[posName];
     const address = field[posAddress];
     const role = Number(field[posRole]);
-    let areaNumber = null;
+    let areaNum = null;
 
     if (field[posArea]) {
-      areaNumber = Number(field[posArea]);
+      areaNum = Number(field[posArea]);
     }
     const item = {
       userName,
@@ -42,7 +42,7 @@ const genUsers = async () => {
       phone,
       address,
       role,
-      areaNumber,
+      areaNumber: areaNum,
     };
     data.push(item);
   });
