@@ -18,7 +18,8 @@ const genUsers = async () => {
   const posName = header.indexOf("fullName");
   const posPhone = header.indexOf("phone");
   const posAddress = header.indexOf("address");
-  const posArea = header.indexOf("areaNumber\r");
+  // const posArea = header.indexOf("areaNumber\r");
+  const posArea = 6;
   const posRole = header.indexOf("role");
   content.map((oneLine) => {
     const field = oneLine.split(";");
