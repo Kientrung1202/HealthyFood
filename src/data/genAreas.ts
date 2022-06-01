@@ -11,7 +11,8 @@ export const genAreas = async () => {
   }[] = [];
   const posNum = header.indexOf("areaNumber");
   const posPro = header.indexOf("belongToProvince");
-  const posName = header.indexOf("areaName\r");
+  // const posName = header.indexOf("areaName\r");
+  const posName = 2;
   content.map((line) => {
     const field = line.split(";");
     cleanField(field);

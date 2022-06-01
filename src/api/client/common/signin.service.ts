@@ -50,6 +50,7 @@ export const signIn = async (req: Request, res: Response) => {
                   phone: userInfo.getDataValue("phone"),
                   address: userInfo.getDataValue("address"),
                   areaNumber: userInfo.getDataValue("areaNumber"),
+                  role: userInfo.getDataValue("role"),
                 })
               );
             })
