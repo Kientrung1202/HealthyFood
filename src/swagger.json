@@ -400,7 +400,7 @@
     "/offices": {
       "get": {
         "tags": ["Expert"],
-        "description": "Nếu muốn lọc thì thêm /?status=[active, notactive,evict, expire, waiting]&kind=[1,2,3]",
+        "description": "Nếu muốn lọc thì thêm /?status=[active, notactive,evict, expire, waiting]&kind=[1,2,3]. Kind = 1 thi la san xuat, =2 la buon ban, =3 la ca 2. Neu la manage thì thêm trường areaNumber vao trong body",
         "responses": {
           "200": {
             "description": "OKk",

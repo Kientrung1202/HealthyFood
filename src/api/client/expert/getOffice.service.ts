@@ -16,7 +16,7 @@ const findOffByStatus = async (status = 0, areaNumber: number) => {
   if (status != 0) {
     const cers = await Certification.findAll({
       attributes: ["officeId"],
-      where: { status, areaNumber },
+      where: { status },
       group: "officeId",
     });
     const results: any[] = [];
@@ -31,8 +31,9 @@ const findOffByStatus = async (status = 0, areaNumber: number) => {
             address: result?.getDataValue("address"),
             phone: result?.getDataValue("phone"),
             kindOfBusiness: result?.getDataValue("kindOfBusiness"),
+            areaNumber: result?.getDataValue("areaNumber"),
           };
-          results.push(item);
+          if (item.areaNumber == areaNumber) results.push(item);
         });
       })
     ).then(() => results);
@@ -117,8 +118,11 @@ export const getListOffice = async (req: Request, res: Response) => {
   } else if (userInfo?.getDataValue("role") == ROLE.manage)
     areaNumber = req.body.areaNumber;
   if (!areaNumber) return res.json(badRequest("Missing field areaNumber"));
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let resultsSta: any[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let resultsKind: any[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let results: any[] = [];
   if (status == "active") {
     resultsSta = await findOffByStatus(STATUSOFCER.active, areaNumber);
