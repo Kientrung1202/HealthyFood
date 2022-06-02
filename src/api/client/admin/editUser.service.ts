@@ -76,7 +76,7 @@ export const getListMange = (req: Request, res: Response) => {
 };
 export const getListExpert = (req: Request, res: Response) => {
   Users.findAll({
-    attributes: ["userId", "fullName", "phone", "address"],
+    attributes: ["userId", "fullName", "phone", "address", "areaNumber"],
     where: {
       role: ROLE.expert,
     },

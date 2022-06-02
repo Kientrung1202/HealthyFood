@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Area } from "../../../models/area";
+import Users from "../../../models/user";
 import { badRequest, success } from "../../../utils/response";
 
 export const getListCity = async (req: Request, res: Response) => {
@@ -30,4 +31,11 @@ export const getArea = async (req: Request, res: Response) => {
   }).then((results) => {
     res.json(success(results));
   });
+};
+
+export const updateAreaForExpert = async (req: Request, res: Response) => {
+  const { expertId, areaNumber } = req.body;
+  await Users.update({ areaNumber }, { where: { userId: expertId } })
+    .then(() => res.json(success("Update area for expert successfully!")))
+    .catch((err) => res.json(badRequest(err)));
 };

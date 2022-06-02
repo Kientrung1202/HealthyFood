@@ -42,25 +42,13 @@ router.post(
       });
   }
 );
-router.get(
-  "/admin/listManage",
-  authJwt.isAdmin,
-  (req: Request, res: Response) => {
-    getListMange(req, res);
-  }
-);
-router.get(
-  "/admin/listExpert",
-  authJwt.isAdmin,
-  (req: Request, res: Response) => {
-    getListExpert(req, res);
-  }
-);
-router.delete(
-  "/admin/deleteUser",
-  authJwt.isAdmin,
-  (req: Request, res: Response) => {
-    deleteUser(req, res);
-  }
-);
+router.get("/admin/manages", authJwt.isAdmin, (req: Request, res: Response) => {
+  getListMange(req, res);
+});
+router.get("/admin/experts", authJwt.isAdmin, (req: Request, res: Response) => {
+  getListExpert(req, res);
+});
+router.delete("/admin/user", authJwt.isAdmin, (req: Request, res: Response) => {
+  deleteUser(req, res);
+});
 module.exports = router; // export all router

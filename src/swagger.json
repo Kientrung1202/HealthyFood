@@ -85,6 +85,17 @@
           }
         }
       },
+      "updateArea": {
+        "type": "object",
+        "properties": {
+          "expertId": {
+            "type": "string"
+          },
+          "areaNumber": {
+            "type": "number"
+          }
+        }
+      },
       "office": {
         "type": "object",
         "properties": {
@@ -235,7 +246,7 @@
         }
       }
     },
-    "/admin/listManage": {
+    "/admin/manages": {
       "get": {
         "tags": ["Admin"],
         "description": "Create an expert",
@@ -253,7 +264,7 @@
         }
       }
     },
-    "/admin/listExpert": {
+    "/admin/experts": {
       "get": {
         "tags": ["Admin"],
         "description": "Create an expert",
@@ -271,7 +282,7 @@
         }
       }
     },
-    "/admin/deleteUser": {
+    "/admin/user": {
       "delete": {
         "tags": ["Admin"],
         "description": "Create an expert",
@@ -335,6 +346,50 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/responseSuccessObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/manage/experts": {
+      "get": {
+        "tags": ["Manage"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/manage/expert": {
+      "put": {
+        "tags": ["Manage"],
+        "description": "",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/updateArea"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessString"
                 }
               }
             }

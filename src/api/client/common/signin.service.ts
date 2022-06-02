@@ -15,6 +15,7 @@ export const signIn = async (req: Request, res: Response) => {
       "phone",
       "address",
       "areaNumber",
+      "role",
     ],
     where: { userName },
   });
