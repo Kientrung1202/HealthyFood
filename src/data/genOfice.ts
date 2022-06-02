@@ -17,7 +17,8 @@ const genOffice = async () => {
   const posArea = header.indexOf("areaNumber");
   const posNameOffice = header.indexOf("nameOffice");
   const posAddress = header.indexOf("address");
-  const posKindOfBusiness = header.indexOf("kindOfBusiness\r");
+  // const posKindOfBusiness = header.indexOf("kindOfBusiness\r");
+  const posKindOfBusiness = 6;
   const posPhone = header.indexOf("phone");
   const posOwn = header.indexOf("owner");
 

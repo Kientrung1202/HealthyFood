@@ -12,7 +12,8 @@ export const genEviction = async (rootPath: string) => {
   const posEvictId = header.indexOf("evictionId");
   const posCerId = header.indexOf("certificationId");
   const posDate = header.indexOf("date");
-  const posLinkDoc = header.indexOf("linkDoc\r");
+  // const posLinkDoc = header.indexOf("linkDoc\r");
+  const posLinkDoc = 3;
   content.map((oneLine) => {
     const field = oneLine.split(";");
     cleanField(field);
