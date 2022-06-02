@@ -6,11 +6,13 @@ import genUsers from "./genUsers";
 import genOffice from "./genOfice";
 import { genCer } from "./genCer";
 import { genEviction } from "./genEviction";
+import Sample from "../models/sample";
 
 const generateDb = async (rootPath: string) => {
   try {
     await Inspection.sync({ force: true });
     await PhaseInspect.sync({ force: true });
+    await Sample.sync({ force: true });
     await genEviction(rootPath);
     await genCer(rootPath);
     await genAreas();

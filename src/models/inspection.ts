@@ -2,8 +2,9 @@ import Sequelize from "sequelize";
 import { db } from "../db";
 
 export const Inspection = db.sequelize.define("inspections", {
-  inspectNumber: {
-    type: Sequelize.INTEGER,
+  inspectId: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
     primaryKey: true,
   },
   inspectionName: {
