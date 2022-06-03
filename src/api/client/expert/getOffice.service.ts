@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import path from "path";
+import sequelize from "sequelize";
 import { Op } from "sequelize";
+import { Area } from "../../../models/area";
 import { Certification } from "../../../models/certification";
 import { Eviction } from "../../../models/eviction";
 import { Inspection } from "../../../models/inspection";
@@ -170,6 +172,24 @@ export const getListOffice = async (req: Request, res: Response) => {
   return res.json(success(results));
 };
 
+export const getArea = async (req: Request, res: Response) => {
+  const userId = req.body.user.userId;
+  const userInfo = await Users.findByPk(userId);
+  const role = userInfo?.getDataValue("role");
+  let areaNumber = 0;
+  if (role == ROLE.expert) {
+    areaNumber = userInfo?.getDataValue("areaNumber");
+  } else if (role == ROLE.manage) {
+    const x = req.body.areaNumber;
+    if (!x) return res.json(badRequest("Missing field: areaNumber"));
+    else areaNumber = x;
+  }
+
+  await Area.findByPk(areaNumber)
+    .then((results) => res.json(success(results)))
+    .catch((err) => res.json(badRequest(err)));
+};
+
 export const detailOffice = async (req: Request, res: Response) => {
   const { officeId } = req.params;
   await Office.findByPk(officeId)
@@ -178,14 +198,15 @@ export const detailOffice = async (req: Request, res: Response) => {
 };
 export const getListCer = async (req: Request, res: Response) => {
   const { officeId } = req.body;
+  if (!officeId) return res.json(badRequest("Missing field: officeId"));
   await Certification.findAll({ where: { officeId } })
     .then((cer) => res.json(success(cer)))
     .catch((err) => res.json(badRequest(err)));
 };
 
 export const getEvict = async (req: Request, res: Response) => {
-  const { cerId } = req.body;
-  await Eviction.findAll({ where: { cerId } })
+  const { certificationId } = req.body;
+  await Eviction.findAll({ where: { certificationId } })
     .then((evict) => res.json(success(evict[0])))
     .catch((err) => res.json(badRequest(err)));
 };
@@ -245,14 +266,44 @@ export const createOffice = async (req: Request, res: Response) => {
     .then((err) => res.json(badRequest(err.toString())));
 };
 
-export const updateCer = async (req: Request, res: Response) => {
+export const createCer = async (req: Request, res: Response) => {
   const { officeId, start, end, status } = req.body;
+  const number = await Certification.findAll({
+    attributes: [[sequelize.fn("MAX", sequelize.col("certificationId")), "id"]],
+  });
+  const certificationId = number[0].getDataValue("id") + 1;
+  await Certification.create({
+    start,
+    end,
+    status,
+    officeId,
+    certificationId,
+  })
+    .then(() => res.json(success({ certificationId })))
+    .catch((err) => res.json(badRequest(err)));
+};
+
+export const updateFileCer = async (req: Request, res: Response) => {
+  const { certificationId } = req.body;
   uploadFile(req, res, async (error) => {
     if (error)
       return res.json(badRequest(`Error when trying to upload: ${error}`));
-    const linkDoc = `/app/dist/public/${req.body.filename}`;
-    await Certification.create({ start, end, status, officeId, linkDoc }).then(
-      () => res.json(success("Update "))
-    );
+    const linkDoc = `/app/dist/public/${req.file?.filename}`;
+    await Certification.update(
+      { linkDoc },
+      { where: { certificationId } }
+    ).then(() => res.json(success("Update oke")));
   });
+};
+
+export const evictCer = async (req: Request, res: Response) => {
+  const { certificationId } = req.body;
+  const cer = await Certification.findByPk(certificationId);
+  if (cer?.getDataValue("status") != STATUSOFCER.evict)
+    await Certification.update(
+      { status: STATUSOFCER.evict },
+      { where: { certificationId } }
+    )
+      .then(() => res.json(success("Evict this certification successfully!")))
+      .catch((err) => res.json(badRequest(err)));
 };

@@ -24,3 +24,8 @@ export enum STATUSOFSAMPLE {
   qualified,
   unqualified,
 }
+
+export enum QUALIFIED {
+  notqualified = 1,
+  qualified,
+}

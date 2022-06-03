@@ -2,28 +2,44 @@ import { Request, Response } from "express";
 import express from "express";
 import { authJwt } from "../../middleware/authJwt";
 import {
+  createCer,
   createOffice,
   deleteOffice,
   detailOffice,
+  getArea,
   getEvict,
   getFile,
   getListCer,
   getListOffice,
+  updateFileCer,
   updateOffice,
 } from "./getOffice.service";
+import { uploadFile } from "../../common/handleFile";
 const router = express.Router();
 
-router.get("/offices", authJwt.isUser, async (req: Request, res: Response) => {
-  getListOffice(req, res);
-});
-router.post("/office", authJwt.isUser, async (req: Request, res: Response) => {
-  // create office
-  createOffice(req, res);
+router.get("/area", authJwt.isExpert, async (req: Request, res: Response) => {
+  getArea(req, res);
 });
 
 router.get(
+  "/offices",
+  authJwt.isExpert,
+  async (req: Request, res: Response) => {
+    getListOffice(req, res);
+  }
+);
+router.post(
+  "/office",
+  authJwt.isExpert,
+  async (req: Request, res: Response) => {
+    // create office
+    createOffice(req, res);
+  }
+);
+
+router.get(
   "/office/:officeId",
-  authJwt.isUser,
+  authJwt.isExpert,
   async (req: Request, res: Response) => {
     detailOffice(req, res);
   }
@@ -31,7 +47,7 @@ router.get(
 
 router.put(
   "/office/:officeId",
-  authJwt.isUser,
+  authJwt.isExpert,
   async (req: Request, res: Response) => {
     updateOffice(req, res);
   }
@@ -39,20 +55,36 @@ router.put(
 
 router.delete(
   "/office/:officeId",
-  authJwt.isUser,
+  authJwt.isExpert,
   async (req: Request, res: Response) => {
     deleteOffice(req, res);
   }
 );
+router.post(
+  "/certification",
+  authJwt.isExpert,
+  async (req: Request, res: Response) => {
+    createCer(req, res);
+  }
+);
 
-router.get("/cers", authJwt.isUser, async (req: Request, res: Response) => {
+// upload file dang loi
+router.put(
+  "/certification",
+  [authJwt.isExpert, uploadFile],
+  async (req: Request, res: Response) => {
+    // updateFileCer(req, res);
+    res.json("upload oke");
+  }
+);
+router.get("/cers", authJwt.isExpert, async (req: Request, res: Response) => {
   getListCer(req, res);
 });
 
-router.get("/evict", authJwt.isUser, async (req: Request, res: Response) => {
+router.get("/evict", authJwt.isExpert, async (req: Request, res: Response) => {
   getEvict(req, res);
 });
-router.get("/file", authJwt.isUser, async (req: Request, res: Response) => {
+router.get("/file", authJwt.isExpert, async (req: Request, res: Response) => {
   getFile(req, res);
 });
 

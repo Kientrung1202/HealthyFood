@@ -1,5 +1,6 @@
 import Sequelize from "sequelize";
 import { db } from "../db";
+import { QUALIFIED } from "../utils/interface";
 
 export const PhaseInspect = db.sequelize.define("phaseinspects", {
   phase: {
@@ -10,18 +11,8 @@ export const PhaseInspect = db.sequelize.define("phaseinspects", {
     type: Sequelize.UUID,
     allowNull: false,
   },
-  startPhase: {
-    type: Sequelize.DATEONLY,
-  },
-  endPhase: {
-    type: Sequelize.DATEONLY,
-  },
-  docConclude: {
-    type: Sequelize.STRING,
-    allowNull: true,
-  },
-  linkImage: {
-    type: Sequelize.STRING,
-    allowNull: true,
+  conclude: {
+    type: Sequelize.INTEGER,
+    defaultValue: QUALIFIED.notqualified,
   },
 });

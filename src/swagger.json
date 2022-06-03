@@ -127,7 +127,7 @@
       "cerId": {
         "type": "object",
         "properties": {
-          "cerId": {
+          "certificationId": {
             "type": "string"
           }
         }
@@ -145,6 +145,54 @@
         "properties": {
           "linkDoc": {
             "type": "string"
+          }
+        }
+      },
+      "certification": {
+        "type": "object",
+        "properties": {
+          "officeId": {
+            "type": "string"
+          },
+          "start": {
+            "type": "string"
+          },
+          "end": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          }
+        }
+      },
+      "inspect": {
+        "type": "object",
+        "properties": {
+          "officeId": {
+            "type": "string"
+          },
+          "inspectionName": {
+            "type": "string"
+          },
+          "startInspect": {
+            "type": "string"
+          },
+          "endInspect": {
+            "type": "string"
+          }
+        }
+      },
+      "inspectUpdate": {
+        "type": "object",
+        "properties": {
+          "officeId": {
+            "type": "string"
+          },
+          "phase": {
+            "type": "number"
+          },
+          "conclude": {
+            "type": "number"
           }
         }
       },
@@ -397,6 +445,24 @@
         }
       }
     },
+    "/area": {
+      "get": {
+        "tags": "Expert",
+        "description": "Nếu là manage thì thêm areaNumber vào body, nếu là expert thì không cần",
+        "responses": {
+          "200": {
+            "description": "OKk",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/offices": {
       "get": {
         "tags": ["Expert"],
@@ -504,7 +570,7 @@
     "/cers": {
       "get": {
         "tags": ["Expert"],
-        "description": "",
+        "description": "Get list cers of office",
         "parameters": [
           {
             "in": "body",
@@ -598,6 +664,76 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/responseSuccessObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inspects": {
+      "get": {
+        "tags": ["Expert"],
+        "description": "List of inspections",
+        "responses": {
+          "200": {
+            "description": "OKk",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inspect": {
+      "post": {
+        "tags": ["Expert"],
+        "description": "Create a inspect. If u are manage u need to have param: userId",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/inspect"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OKk",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/phase": {
+      "post": {
+        "tags": ["Expert"],
+        "description": "List of inspections",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/inspectUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OKk",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessString"
                 }
               }
             }
