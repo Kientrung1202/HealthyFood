@@ -13,7 +13,7 @@ export const Eviction = db.sequelize.define("evictions", {
   date: {
     type: Sequelize.DATEONLY,
   },
-  linkDoc: {
+  fileName: {
     type: Sequelize.STRING,
     allowNull: true,
   },

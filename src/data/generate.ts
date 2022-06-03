@@ -1,21 +1,20 @@
 import { logErr } from "../services/log";
 import { genAreas } from "./genAreas";
-import { Inspection } from "../models/inspection";
-import { PhaseInspect } from "../models/phaseInspect";
 import genUsers from "./genUsers";
 import genOffice from "./genOfice";
 import { genCer } from "./genCer";
 import { genEviction } from "./genEviction";
-import Sample from "../models/sample";
 import { genInspections } from "./genInspect";
+import { genPhases } from "./genPhases";
+import { genSamples } from "./genSample";
 
-const generateDb = async (rootPath: string) => {
+const generateDb = async () => {
   try {
-    await PhaseInspect.sync({ force: true });
-    await Sample.sync({ force: true });
+    await genPhases();
+    await genSamples();
     await genInspections();
-    await genEviction(rootPath);
-    await genCer(rootPath);
+    await genEviction();
+    await genCer();
     await genAreas();
     await genUsers();
     await genOffice();

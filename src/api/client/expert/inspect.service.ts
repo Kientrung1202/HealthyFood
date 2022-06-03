@@ -6,6 +6,7 @@ import Users from "../../../models/user";
 import { PHASEINSPECT, ROLE } from "../../../utils/interface";
 import { badRequest, success } from "../../../utils/response";
 import { v4 as uuidv4 } from "uuid";
+import { Sample } from "../../../models/sample";
 
 export const getListInspection = async (req: Request, res: Response) => {
   const { userId } = req.body.user;
@@ -72,3 +73,14 @@ export const updatePhase = async (req: Request, res: Response) => {
     .then(() => res.json(success("Update phase successfully!")))
     .catch((err) => res.json(badRequest(err)));
 };
+
+export const getListSample = async (req: Request, res: Response) => {
+  const { inspectId } = req.body;
+  await Sample.findAll({ where: { inspectId } })
+    .then((results) => res.json(success(results)))
+    .catch((err) => res.json(badRequest(err)));
+};
+
+// export const postSample = async (req: Request, res: Response) => {
+//   const {inspectId, sampleName, linkImage, status}
+// }

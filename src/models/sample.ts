@@ -2,14 +2,19 @@ import { db } from "../db";
 import Sequelize from "sequelize";
 import { STATUSOFSAMPLE } from "../utils/interface";
 
-const Sample = db.sequelize.define("samples", {
-  inspectionId: {
+export const Sample = db.sequelize.define("samples", {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  inspectId: {
     type: Sequelize.UUID,
   },
   sampleName: {
     type: Sequelize.STRING,
   },
-  image: {
+  linkImage: {
     type: Sequelize.STRING,
   },
   status: {
@@ -17,5 +22,3 @@ const Sample = db.sequelize.define("samples", {
     defaultValue: STATUSOFSAMPLE.sending,
   },
 });
-
-export default Sample;

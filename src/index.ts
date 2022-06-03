@@ -17,7 +17,7 @@ const connectDb = async () => {
     .authenticate()
     .then(async () => {
       console.log("Connect database successfully");
-      await generateDb(__dirname);
+      await generateDb();
     })
     .catch((err: Error) => console.log("Enable connect database", err));
 };

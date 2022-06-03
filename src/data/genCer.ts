@@ -1,6 +1,6 @@
 import { Certification } from "../models/certification";
 import { cleanField, getContentCSVFiles, getCSVFiles } from "./scanDataType";
-export const genCer = async (rootPath: string) => {
+export const genCer = async () => {
   const pathFile = getCSVFiles("certification");
   const { header, content } = await getContentCSVFiles(pathFile, ";");
   const data: {
@@ -8,7 +8,7 @@ export const genCer = async (rootPath: string) => {
     certificationId: number;
     start: string;
     end: string;
-    linkDoc: string;
+    fileName: string;
     status: number | null;
   }[] = [];
   const posOfficeId = header.indexOf("officeId");
@@ -26,14 +26,14 @@ export const genCer = async (rootPath: string) => {
     const certificationId = Number(field[posId]);
     const start = field[posStart];
     const end = field[posEnd];
-    const linkDoc = rootPath + "/public/" + field[posLinkDoc];
+    const fileName = field[posLinkDoc];
     if (field[posStatus]) sta = Number(field[posStatus]);
     const item = {
       officeId,
       certificationId,
       start,
       end,
-      linkDoc,
+      fileName,
       status: sta,
     };
     data.push(item);

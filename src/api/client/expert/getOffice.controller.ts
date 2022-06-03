@@ -84,7 +84,7 @@ router.get("/cers", authJwt.isExpert, async (req: Request, res: Response) => {
 router.get("/evict", authJwt.isExpert, async (req: Request, res: Response) => {
   getEvict(req, res);
 });
-router.get("/file", authJwt.isExpert, async (req: Request, res: Response) => {
+router.get("/file/:name", async (req: Request, res: Response) => {
   getFile(req, res);
 });
 

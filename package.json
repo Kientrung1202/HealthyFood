@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "copyPdf": "copyfiles -u 1 public/*.docx public/*.pdf dist/public/",
+    "copyImages": "copyfiles -u 1 public/*.jpg public/*.jpg dist/public/",
     "copy-files": "copyfiles -u 1 src/**/*.csv dist/",
-    "build": "npx tsc && npm run copy-files && npm run copyPdf",
+    "build": "npx tsc && npm run copy-files && npm run copyPdf && npm run copyImages",
     "start": "npm run build && node dist/index.js",
     "start:dev": "nodemon ./src/index.ts"
   },

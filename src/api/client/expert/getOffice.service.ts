@@ -212,8 +212,9 @@ export const getEvict = async (req: Request, res: Response) => {
 };
 
 export const getFile = async (req: Request, res: Response) => {
-  const { linkDoc } = req.body;
-  return res.sendFile(path.join(linkDoc));
+  const { name } = req.params;
+  console.log("aaaaa");
+  return res.sendFile(path.join(`/app/dist/public/${name}`));
 };
 
 export const updateOffice = async (req: Request, res: Response) => {

@@ -1,12 +1,12 @@
 import { Eviction } from "../models/eviction";
 import { cleanField, getContentCSVFiles, getCSVFiles } from "./scanDataType";
-export const genEviction = async (rootPath: string) => {
+export const genEviction = async () => {
   const pathFile = getCSVFiles("evictions");
   const { header, content } = await getContentCSVFiles(pathFile, ";");
   const data: {
     evictionId: number;
     certificationId: number;
-    linkDoc: string;
+    fileName: string;
     date: string;
   }[] = [];
   const posEvictId = header.indexOf("evictionId");
@@ -19,13 +19,13 @@ export const genEviction = async (rootPath: string) => {
     cleanField(field);
     const evictionId = Number(field[posEvictId]);
     const certificationId = Number(field[posCerId]);
-    const linkDoc = rootPath + "/public/" + field[posLinkDoc];
+    const fileName = field[posLinkDoc];
     const date = field[posDate];
     const item = {
       date,
       evictionId,
       certificationId,
-      linkDoc,
+      fileName,
     };
     data.push(item);
   });

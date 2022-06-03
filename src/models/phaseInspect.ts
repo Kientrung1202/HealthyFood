@@ -15,4 +15,7 @@ export const PhaseInspect = db.sequelize.define("phaseinspects", {
     type: Sequelize.INTEGER,
     defaultValue: QUALIFIED.notqualified,
   },
+  penalizeLink: {
+    type: Sequelize.STRING,
+  },
 });

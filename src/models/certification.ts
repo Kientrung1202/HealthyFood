@@ -21,7 +21,7 @@ export const Certification = db.sequelize.define(
       type: Sequelize.DATEONLY,
       allowNull: false,
     },
-    linkDoc: {
+    fileName: {
       type: Sequelize.STRING,
       allowNull: true,
     },

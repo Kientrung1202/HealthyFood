@@ -182,6 +182,14 @@
           }
         }
       },
+      "inspectId": {
+        "type": "object",
+        "properties": {
+          "inspectId": {
+            "type": "string"
+          }
+        }
+      },
       "inspectUpdate": {
         "type": "object",
         "properties": {
@@ -447,7 +455,7 @@
     },
     "/area": {
       "get": {
-        "tags": "Expert",
+        "tags": ["Expert"],
         "description": "Nếu là manage thì thêm areaNumber vào body, nếu là expert thì không cần",
         "responses": {
           "200": {
@@ -716,14 +724,40 @@
       }
     },
     "/phase": {
-      "post": {
+      "put": {
         "tags": ["Expert"],
-        "description": "List of inspections",
+        "description": "Edit conclude for phase",
         "parameters": [
           {
             "in": "body",
             "schema": {
               "$ref": "#/components/schemas/inspectUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OKk",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/samples": {
+      "get": {
+        "tags": ["Expert"],
+        "description": "Edit conclude for phase",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/inspectId"
             }
           }
         ],
