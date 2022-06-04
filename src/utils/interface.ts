@@ -19,6 +19,7 @@ export enum PHASEINSPECT {
   conclude, // ket luan
   penalize, // xu phat
 }
+
 export enum STATUSOFSAMPLE {
   sending = 1,
   qualified,

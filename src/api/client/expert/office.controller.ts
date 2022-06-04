@@ -2,25 +2,21 @@ import { Request, Response } from "express";
 import express from "express";
 import { authJwt } from "../../middleware/authJwt";
 import {
-  createCer,
   createOffice,
   deleteOffice,
   detailOffice,
   getArea,
-  getEvict,
-  getFile,
-  getListCer,
   getListOffice,
-  updateFileCer,
   updateOffice,
-} from "./getOffice.service";
-import { uploadFile } from "../../common/handleFile";
+} from "./office.service";
 const router = express.Router();
 
+// thong tin khu vuc cua minh
 router.get("/area", authJwt.isExpert, async (req: Request, res: Response) => {
   getArea(req, res);
 });
 
+// list cac co so
 router.get(
   "/offices",
   authJwt.isExpert,
@@ -28,6 +24,8 @@ router.get(
     getListOffice(req, res);
   }
 );
+
+//tao 1 co so moi
 router.post(
   "/office",
   authJwt.isExpert,
@@ -60,32 +58,5 @@ router.delete(
     deleteOffice(req, res);
   }
 );
-router.post(
-  "/certification",
-  authJwt.isExpert,
-  async (req: Request, res: Response) => {
-    createCer(req, res);
-  }
-);
-
-// upload file dang loi
-router.put(
-  "/certification",
-  [authJwt.isExpert, uploadFile],
-  async (req: Request, res: Response) => {
-    // updateFileCer(req, res);
-    res.json("upload oke");
-  }
-);
-router.get("/cers", authJwt.isExpert, async (req: Request, res: Response) => {
-  getListCer(req, res);
-});
-
-router.get("/evict", authJwt.isExpert, async (req: Request, res: Response) => {
-  getEvict(req, res);
-});
-router.get("/file/:name", async (req: Request, res: Response) => {
-  getFile(req, res);
-});
 
 module.exports = router;

@@ -11,6 +11,7 @@ import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "./swagger.json";
 const app = express();
 const port = process.env.PORT;
+import fileUpload from "express-fileupload";
 
 const connectDb = async () => {
   await db.sequelize
@@ -26,6 +27,7 @@ const initApi = () => {
   app.use((req, res, next) => {
     next();
   });
+  app.use(fileUpload());
   app.use(morgan("combined")); //log bug thoi
   app.use(cors()); // loi cors
   // for parsing application/json

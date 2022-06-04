@@ -13,6 +13,7 @@ import { KINDOFBUSINESS, ROLE, STATUSOFCER } from "../../../utils/interface";
 import { badRequest, success } from "../../../utils/response";
 import { uploadFile } from "../../common/handleFile";
 import { validPhone } from "../../middleware/regex";
+import fileUpload from "express-fileupload";
 
 const findOffByStatus = async (status = 0, areaNumber: number) => {
   if (status != 0) {
@@ -213,7 +214,6 @@ export const getEvict = async (req: Request, res: Response) => {
 
 export const getFile = async (req: Request, res: Response) => {
   const { name } = req.params;
-  console.log("aaaaa");
   return res.sendFile(path.join(`/app/dist/public/${name}`));
 };
 
@@ -265,46 +265,4 @@ export const createOffice = async (req: Request, res: Response) => {
   })
     .then(() => res.json(success("Create office successfully")))
     .then((err) => res.json(badRequest(err.toString())));
-};
-
-export const createCer = async (req: Request, res: Response) => {
-  const { officeId, start, end, status } = req.body;
-  const number = await Certification.findAll({
-    attributes: [[sequelize.fn("MAX", sequelize.col("certificationId")), "id"]],
-  });
-  const certificationId = number[0].getDataValue("id") + 1;
-  await Certification.create({
-    start,
-    end,
-    status,
-    officeId,
-    certificationId,
-  })
-    .then(() => res.json(success({ certificationId })))
-    .catch((err) => res.json(badRequest(err)));
-};
-
-export const updateFileCer = async (req: Request, res: Response) => {
-  const { certificationId } = req.body;
-  uploadFile(req, res, async (error) => {
-    if (error)
-      return res.json(badRequest(`Error when trying to upload: ${error}`));
-    const linkDoc = `/app/dist/public/${req.file?.filename}`;
-    await Certification.update(
-      { linkDoc },
-      { where: { certificationId } }
-    ).then(() => res.json(success("Update oke")));
-  });
-};
-
-export const evictCer = async (req: Request, res: Response) => {
-  const { certificationId } = req.body;
-  const cer = await Certification.findByPk(certificationId);
-  if (cer?.getDataValue("status") != STATUSOFCER.evict)
-    await Certification.update(
-      { status: STATUSOFCER.evict },
-      { where: { certificationId } }
-    )
-      .then(() => res.json(success("Evict this certification successfully!")))
-      .catch((err) => res.json(badRequest(err)));
 };

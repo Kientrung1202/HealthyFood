@@ -140,10 +140,10 @@
           }
         }
       },
-      "linkDoc": {
+      "fileName": {
         "type": "object",
         "properties": {
-          "linkDoc": {
+          "fileName": {
             "type": "string"
           }
         }
@@ -162,6 +162,9 @@
           },
           "status": {
             "type": "integer"
+          },
+          "fileName": {
+            "type": "string"
           }
         }
       },
@@ -200,6 +203,56 @@
             "type": "number"
           },
           "conclude": {
+            "type": "number"
+          }
+        }
+      },
+      "sample": {
+        "type": "object",
+        "properties": {
+          "inspectId": {
+            "type": "string"
+          },
+          "sampleName": {
+            "type": "string"
+          },
+          "linkImage": {
+            "type": "string"
+          },
+          "status": {
+            "type": "number"
+          }
+        }
+      },
+      "samplePut": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "number"
+          }
+        }
+      },
+      "sampleId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "eviction": {
+        "type": "object",
+        "properties": {
+          "certificationId": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "fileName": {
             "type": "number"
           }
         }
@@ -575,7 +628,7 @@
         }
       }
     },
-    "/cers": {
+    "/certifications": {
       "get": {
         "tags": ["Expert"],
         "description": "Get list cers of office",
@@ -601,7 +654,33 @@
         }
       }
     },
-    "/evicts": {
+    "/certification": {
+      "post": {
+        "tags": ["Expert"],
+        "description": "Get list cers of office",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/certification"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evict": {
       "get": {
         "tags": ["Expert"],
         "description": "",
@@ -625,9 +704,33 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": ["Expert"],
+        "description": "",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/eviction"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessObject"
+                }
+              }
+            }
+          }
+        }
       }
     },
-    "/file": {
+    "/file/:name": {
       "get": {
         "tags": ["Expert"],
         "description": "",
@@ -635,7 +738,7 @@
           {
             "in": "body",
             "schema": {
-              "$ref": "#/components/schemas/linkDoc"
+              "$ref": "#/components/schemas/fileName"
             }
           }
         ],
@@ -752,13 +855,133 @@
     "/samples": {
       "get": {
         "tags": ["Expert"],
-        "description": "Edit conclude for phase",
+        "description": "",
         "parameters": [
           {
             "in": "body",
             "schema": {
               "$ref": "#/components/schemas/inspectId"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OKk",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sample": {
+      "post": {
+        "tags": ["Expert"],
+        "description": "",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/sample"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OKk",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessString"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Expert"],
+        "description": "",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/samplePut"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OKk",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessString"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Expert"],
+        "description": "",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/sampleId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OKk",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/filePdf": {
+      "post": {
+        "tags": ["Expert"],
+        "description": "Add file to the body",
+        "parameters": [
+          {
+            "in": "body"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OKk",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fileImg": {
+      "post": {
+        "tags": ["Expert"],
+        "description": "Add file to the body",
+        "parameters": [
+          {
+            "in": "body"
           }
         ],
         "responses": {

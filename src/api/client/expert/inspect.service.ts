@@ -7,6 +7,10 @@ import { PHASEINSPECT, ROLE } from "../../../utils/interface";
 import { badRequest, success } from "../../../utils/response";
 import { v4 as uuidv4 } from "uuid";
 import { Sample } from "../../../models/sample";
+import fileUpload from "express-fileupload";
+
+import sequelize from "sequelize";
+import path from "path";
 
 export const getListInspection = async (req: Request, res: Response) => {
   const { userId } = req.body.user;
@@ -31,7 +35,7 @@ export const getListInspection = async (req: Request, res: Response) => {
         inspects.map((inspect) => results.push(inspect));
       });
     })
-  ).then(() => res.json(results));
+  ).then(() => res.json(success(results)));
 };
 
 export const createInspection = async (req: Request, res: Response) => {
@@ -81,6 +85,42 @@ export const getListSample = async (req: Request, res: Response) => {
     .catch((err) => res.json(badRequest(err)));
 };
 
-// export const postSample = async (req: Request, res: Response) => {
-//   const {inspectId, sampleName, linkImage, status}
-// }
+export const postSample = async (req: Request, res: Response) => {
+  const { inspectId, sampleName, linkImage, status } = req.body;
+  const number = await Sample.findAll({
+    attributes: [[sequelize.fn("MAX", sequelize.col("id")), "id"]],
+  });
+  const id = number[0].getDataValue("id") + 1;
+  await Sample.create({ id, inspectId, sampleName, linkImage, status })
+    .then(() => res.json(success("Create sample successfully!")))
+    .catch((err) => res.json(badRequest(err)));
+};
+
+export const postImg = async (req: Request, res: Response) => {
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).json(badRequest("No files were uploaded."));
+  }
+  const file = req.files.file as fileUpload.UploadedFile;
+  const math = ["image/jpg", "image/png"];
+  if (math.indexOf(file.mimetype) == -1)
+    return res.json(badRequest("File is not png or jpg file"));
+  const uploadFile = Date.now() + file?.name;
+  file.mv(path.join(`/app/dist/public/${uploadFile}`), (err) => {
+    if (err) return res.json(badRequest(err));
+    else return res.json(success(uploadFile));
+  });
+};
+
+export const updateStatusOfSample = async (req: Request, res: Response) => {
+  const { id, status } = req.body;
+  await Sample.update({ status }, { where: { id } })
+    .then(() => res.json(success("Update status ok!")))
+    .catch((err) => res.json(badRequest(err)));
+};
+
+export const deleteSample = async (req: Request, res: Response) => {
+  const { id } = req.body;
+  await Sample.destroy({ where: { id } })
+    .then(() => res.json(success("Delete sample ok")))
+    .catch((err) => res.json(badRequest(err)));
+};
