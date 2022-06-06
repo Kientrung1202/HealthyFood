@@ -168,6 +168,17 @@
           }
         }
       },
+      "certificationPut": {
+        "type": "object",
+        "properties": {
+          "officeId": {
+            "type": "string"
+          },
+          "end": {
+            "type": "string"
+          }
+        }
+      },
       "inspect": {
         "type": "object",
         "properties": {
@@ -678,6 +689,30 @@
             }
           }
         }
+      },
+      "put": {
+        "tags": ["Expert"],
+        "description": "extend Cer",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/certificationPut"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessObject"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/evict": {
@@ -979,6 +1014,29 @@
       "post": {
         "tags": ["Expert"],
         "description": "Add file to the body",
+        "parameters": [
+          {
+            "in": "body"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OKk",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseSuccessString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recommendOffice": {
+      "get": {
+        "tags": ["Expert"],
+        "description": "",
         "parameters": [
           {
             "in": "body"
