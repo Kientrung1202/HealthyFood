@@ -44,6 +44,16 @@ export const createCer = async (req: Request, res: Response) => {
     .catch((err) => res.json(badRequest(err)));
 };
 
+export const extendCer = async (req: Request, res: Response) => {
+  const { certificationId, end } = req.body;
+  const cer = await Certification.findByPk(certificationId);
+  if (cer?.getDataValue("end") > end)
+    return res.json(badRequest("Can't extend with this date!"));
+  await Certification.update({ end }, { where: { certificationId } })
+    .then(() => res.json(success("Extend successfully!")))
+    .catch((err) => res.json(badRequest(err)));
+};
+
 export const postFilePdf = async (req: Request, res: Response) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).json(badRequest("No files were uploaded."));

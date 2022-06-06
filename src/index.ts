@@ -30,7 +30,7 @@ const initApi = () => {
   app.use(fileUpload());
   app.use(morgan("combined")); //log bug thoi
   app.use(cors()); // loi cors
-  // for parsing application/json
+  // for parsing application/jsonn
   app.use(bodyParser.json());
   // for parsing application/x-www-form-urlencoded
   app.use(bodyParser.urlencoded({ extended: true }));

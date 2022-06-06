@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
+import moment from "moment";
 import path from "path";
-import sequelize from "sequelize";
 import { Op } from "sequelize";
 import { Area } from "../../../models/area";
 import { Certification } from "../../../models/certification";
@@ -11,9 +11,7 @@ import { PhaseInspect } from "../../../models/phaseInspect";
 import Users from "../../../models/user";
 import { KINDOFBUSINESS, ROLE, STATUSOFCER } from "../../../utils/interface";
 import { badRequest, success } from "../../../utils/response";
-import { uploadFile } from "../../common/handleFile";
 import { validPhone } from "../../middleware/regex";
-import fileUpload from "express-fileupload";
 
 const findOffByStatus = async (status = 0, areaNumber: number) => {
   if (status != 0) {
@@ -22,6 +20,7 @@ const findOffByStatus = async (status = 0, areaNumber: number) => {
       where: { status },
       group: "officeId",
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const results: any[] = [];
     await Promise.all(
       cers.map(async (cer) => {
@@ -58,6 +57,7 @@ const findOffByStatus = async (status = 0, areaNumber: number) => {
       });
     });
     const officeIds = allOfficeId.filter((x) => !officeExist.includes(x));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let results: any[] = [];
     await Office.findAll({
       where: {
@@ -73,6 +73,7 @@ const findOffByStatus = async (status = 0, areaNumber: number) => {
 };
 
 const findByKindOfBusiness = async (kind = 0, areaNumber: number) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const results: any[] = [];
   if (kind == 0) {
     await Office.findAll({ where: { areaNumber } }).then((datas) => {
@@ -265,4 +266,41 @@ export const createOffice = async (req: Request, res: Response) => {
   })
     .then(() => res.json(success("Create office successfully")))
     .then((err) => res.json(badRequest(err.toString())));
+};
+
+export const recommendOffice = async (req: Request, res: Response) => {
+  let areaNumber = 0;
+  const userId = req.body.user.userId;
+  const userInfo = await Users.findOne({
+    where: { userId },
+  });
+  if (userInfo?.getDataValue("role") == ROLE.expert) {
+    areaNumber = userInfo?.getDataValue("areaNumber");
+  } else if (userInfo?.getDataValue("role") == ROLE.manage)
+    areaNumber = req.body.areaNumber;
+  const activeOffice = await findOffByStatus(STATUSOFCER.active, areaNumber);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const recommendOfficeIds: any[] = [];
+  // cac chung chi co ngay het han con it hon 1 thang tu thoi diem hien tai
+  console.log(moment().add(30, "days").toDate());
+  await Certification.findAll({
+    where: {
+      end: {
+        [Op.lte]: moment().add(30, "days").toDate(),
+        [Op.gte]: moment().toDate(),
+      },
+    },
+  })
+    .then((datas) => {
+      console.log({ datas });
+      datas.map((data) => {
+        recommendOfficeIds.push(data.getDataValue("officeId"));
+      });
+    })
+    .catch((err) => res.json(badRequest(err)));
+  const results = activeOffice.filter(
+    (office) => recommendOfficeIds.indexOf(office.officeId) >= 0
+  );
+  console.log({ results });
+  return res.json(success(results));
 };

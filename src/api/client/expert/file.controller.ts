@@ -4,6 +4,7 @@ import { authJwt } from "../../middleware/authJwt";
 import {
   createCer,
   createEvict,
+  extendCer,
   getEvict,
   getFile,
   getListCer,
@@ -41,10 +42,20 @@ router.post(
   }
 );
 
+// gia han
+router.put(
+  "/certification",
+  authJwt.isExpert,
+  (req: Request, res: Response) => {
+    extendCer(req, res);
+  }
+);
+
 // nhan quyet dinh thu hoi certificationId
 router.get("/evict", authJwt.isExpert, async (req: Request, res: Response) => {
   getEvict(req, res);
 });
+
 // quyet dinh thu hoi 1 chung chi
 router.post("/evict", authJwt.isExpert, async (req: Request, res: Response) => {
   createEvict(req, res);

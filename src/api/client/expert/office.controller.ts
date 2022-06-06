@@ -7,6 +7,7 @@ import {
   detailOffice,
   getArea,
   getListOffice,
+  recommendOffice,
   updateOffice,
 } from "./office.service";
 const router = express.Router();
@@ -56,6 +57,15 @@ router.delete(
   authJwt.isExpert,
   async (req: Request, res: Response) => {
     deleteOffice(req, res);
+  }
+);
+
+// lay cac co so co nen duoc recommend
+router.get(
+  "/recommendOffice",
+  authJwt.isExpert,
+  async (req: Request, res: Response) => {
+    recommendOffice(req, res);
   }
 );
 
