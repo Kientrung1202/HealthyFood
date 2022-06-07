@@ -101,8 +101,8 @@ export const postImg = async (req: Request, res: Response) => {
     return res.status(400).json(badRequest("No files were uploaded."));
   }
   const file = req.files.file as fileUpload.UploadedFile;
-  const math = ["image/jpg", "image/png"];
-  if (math.indexOf(file.mimetype) == -1)
+  const math = ["image/jpg", "image/png", "image/jpeg"];
+  if (!math.includes(file.mimetype))
     return res.json(badRequest("File is not png or jpg file"));
   const uploadFile = Date.now() + file?.name;
   file.mv(path.join(`/app/dist/public/${uploadFile}`), (err) => {
