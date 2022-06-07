@@ -222,7 +222,7 @@ export const updateOffice = async (req: Request, res: Response) => {
   const { officeId } = req.params;
   const { nameOffice, address, phone, owner, kindOfBusiness } = req.body;
   await Office.update(
-    [{ nameOffice }, { address }, { phone }, { owner }, { kindOfBusiness }],
+    { nameOffice, address, phone, owner, kindOfBusiness },
     {
       where: { officeId },
     }
